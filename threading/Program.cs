@@ -1,15 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace threading
 {
-	class Program
+	public class Program
 	{
-		static void Main(string[] args)
+		private static ThreadPool pool;
+
+		private static void Main(string[] args)
 		{
+			pool = new ThreadPool(2);
+			for (var i = 0; i < 16; i++)
+			{
+				var temp = i;
+				pool.EnqueueTask(() =>
+				{
+					Thread.Sleep(3000);
+					Console.WriteLine($"Hi from {temp}");
+				});
+			}
 		}
 	}
 }
